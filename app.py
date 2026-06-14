@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from compression.huffman import build_frequency_table
 
 app = Flask(__name__)
 
@@ -19,11 +20,21 @@ def upload_file():
 
     # Read file content
     content = file.read().decode("utf-8", errors="ignore")
+    frequency_table = build_frequency_table(content)
 
     return f"""
     <h2>File Uploaded Successfully</h2>
+
     <p><b>Filename:</b> {file.filename}</p>
-    <p><b>Size:</b> {len(content)} characters</p>
+
+    <p><b>Total Characters:</b> {len(content)}</p>
+
+    <p><b>Unique Characters:</b> {len(frequency_table)}</p>
+
+    <h3>Frequency Table</h3>
+
+    <pre>{frequency_table}</pre>
+
     <a href="/">Go Back</a>
     """
 
