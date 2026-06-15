@@ -45,3 +45,22 @@ def build_huffman_tree(frequency_table):
         heapq.heappush(heap, parent_node)
 
     return heap[0]
+
+
+def generate_huffman_codes(root):
+    codes = {}
+
+    def traverse(node, current_code):
+        if node is None:
+            return
+
+        if node.character is not None:
+            codes[node.character] = current_code
+            return
+
+        traverse(node.left, current_code + "0")
+        traverse(node.right, current_code + "1")
+
+    traverse(root, "")
+
+    return codes
