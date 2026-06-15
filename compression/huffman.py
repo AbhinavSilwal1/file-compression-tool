@@ -64,3 +64,12 @@ def generate_huffman_codes(root):
     traverse(root, "")
 
     return codes
+
+
+def encode_text(text, huffman_codes):
+    encoded_text = ""
+
+    for character in text:
+        encoded_text += huffman_codes[character]
+
+    return encoded_text

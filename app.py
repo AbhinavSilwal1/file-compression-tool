@@ -1,5 +1,10 @@
 from flask import Flask, render_template, request
-from compression.huffman import build_frequency_table, build_huffman_tree, generate_huffman_codes
+from compression.huffman import (
+    build_frequency_table, 
+    build_huffman_tree, 
+    generate_huffman_codes, 
+    encode_text
+)
 
 
 app = Flask(__name__)
@@ -23,6 +28,7 @@ def upload_file():
     frequency_table = build_frequency_table(content)
     huffman_tree = build_huffman_tree(frequency_table)
     huffman_codes = generate_huffman_codes(huffman_tree)
+    encoded_text = encode_text(content, huffman_codes)
 
     return f"""
     <h2>File Uploaded Successfully</h2>
@@ -42,6 +48,10 @@ def upload_file():
     <h3>Huffman Codes</h3>
 
     <pre>{huffman_codes}</pre>
+
+    <h3>Encoded Text</h3>
+
+    <pre>{encoded_text}</pre>
 
     <a href="/">Go Back</a>
     """
