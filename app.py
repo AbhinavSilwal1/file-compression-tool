@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 from compression.huffman import (
     build_frequency_table,
     build_huffman_tree,
@@ -70,8 +70,30 @@ def upload_file():
     <h3>Encoded Text</h3>
     <pre>{formatted_encoded_text}</pre>
 
+    <h3>Download Compressed File</h3>
+    <form action="/download" method="POST">
+        <input type="hidden" name="encoded_text" value="{encoded_text}">
+        <button type="submit">Download .txt</button>
+    </form>
+
     <a href="/">Go Back</a>
     """
+
+
+@app.route("/download", methods=["POST"])
+def download_file():
+    encoded_text = request.form.get("encoded_text")
+
+    if not encoded_text:
+        return "No encoded data found"
+
+    return Response(
+        encoded_text,
+        mimetype="text/plain",
+        headers={
+            "Content-Disposition": "attachment;filename=compressed.txt"
+        }
+    )
 
 
 if __name__ == "__main__":
