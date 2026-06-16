@@ -73,3 +73,15 @@ def encode_text(text, huffman_codes):
         encoded_text += huffman_codes[character]
 
     return encoded_text
+
+
+def calculate_compression_statistics(text, encoded_text):
+    original_size = len(text) * 8
+    encoded_size = len(encoded_text)
+    compression_reduction = ((original_size - encoded_size) / original_size) * 100
+
+    return {
+        "original_size": original_size,
+        "encoded_size": encoded_size,
+        "compression_reduction": compression_reduction
+    }
