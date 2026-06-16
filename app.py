@@ -4,7 +4,8 @@ from compression.huffman import (
     build_huffman_tree,
     generate_huffman_codes,
     encode_text,
-    calculate_compression_statistics
+    calculate_compression_statistics,
+    binary_string_to_bytes
 )
 
 
@@ -35,6 +36,8 @@ def upload_file():
     huffman_codes = generate_huffman_codes(huffman_tree)
     encoded_text = encode_text(content, huffman_codes)
     statistics = calculate_compression_statistics(content, encoded_text)
+    binary_data = binary_string_to_bytes(encoded_text)
+    compressed_file_size = len(binary_data)
 
     # Formatting helpers
     def format_binary_string(binary_string, chunk_size=8):
@@ -66,6 +69,7 @@ def upload_file():
     <p><b>Original Size:</b> {statistics["original_size"]} bits</p>
     <p><b>Encoded Size:</b> {statistics["encoded_size"]} bits</p>
     <p><b>Compression Reduction:</b> {statistics["compression_reduction"]:.2f}%</p>
+    <p><b>Binary File Size:</b> {compressed_file_size} bytes</p>
 
     <h3>Encoded Text</h3>
     <pre>{formatted_encoded_text}</pre>

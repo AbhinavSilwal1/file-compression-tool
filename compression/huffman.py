@@ -85,3 +85,18 @@ def calculate_compression_statistics(text, encoded_text):
         "encoded_size": encoded_size,
         "compression_reduction": compression_reduction
     }
+
+
+def binary_string_to_bytes(binary_string):
+    padding = 8 - (len(binary_string) % 8)
+
+    if padding != 8:
+        binary_string += "0" * padding
+
+    byte_array = bytearray()
+
+    for i in range(0, len(binary_string), 8):
+        byte = binary_string[i:i + 8]
+        byte_array.append(int(byte, 2))
+
+    return bytes(byte_array)
