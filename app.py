@@ -74,10 +74,9 @@ def upload_file():
     <h3>Encoded Text</h3>
     <pre>{formatted_encoded_text}</pre>
 
-    <h3>Download Compressed File</h3>
     <form action="/download" method="POST">
         <input type="hidden" name="encoded_text" value="{encoded_text}">
-        <button type="submit">Download .txt</button>
+        <button type="submit">Download Compressed File (.bin)</button>
     </form>
 
     <a href="/">Go Back</a>
@@ -91,11 +90,13 @@ def download_file():
     if not encoded_text:
         return "No encoded data found"
 
+    binary_data = binary_string_to_bytes(encoded_text)
+
     return Response(
-        encoded_text,
-        mimetype="text/plain",
+        binary_data,
+        mimetype="application/octet-stream",
         headers={
-            "Content-Disposition": "attachment;filename=compressed.txt"
+            "Content-Disposition": "attachment; filename=compressed.bin"
         }
     )
 
