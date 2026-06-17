@@ -53,39 +53,22 @@ def upload_file():
     formatted_huffman_codes = format_dict(huffman_codes)
     formatted_encoded_text = format_binary_string(encoded_text)
 
-    return f"""
-    <h2>File Uploaded Successfully</h2>
-
-    <p><b>Filename:</b> {file.filename}</p>
-    <p><b>Total Characters:</b> {len(content)}</p>
-    <p><b>Unique Characters:</b> {len(frequency_table)}</p>
-    <p><b>Root Frequency:</b> {huffman_tree.frequency}</p>
-
-    <h3>Frequency Table</h3>
-    <pre>{formatted_frequency_table}</pre>
-
-    <h3>Huffman Codes</h3>
-    <pre>{formatted_huffman_codes}</pre>
-
-    <h3>Compression Statistics</h3>
-    <p><b>Original Size:</b> {statistics["original_size"]} bits</p>
-    <p><b>Encoded Size:</b> {statistics["encoded_size"]} bits</p>
-    <p><b>Compression Reduction:</b> {statistics["compression_reduction"]:.2f}%</p>
-    <p><b>Binary File Size:</b> {compressed_file_size} bytes</p>
-
-    <h3>Encoded Text</h3>
-    <pre>{formatted_encoded_text}</pre>
-
-    <h3>Decoded Text</h3>
-    <pre>{decoded_text}</pre>
-
-    <form action="/download" method="POST">
-        <input type="hidden" name="encoded_text" value="{encoded_text}">
-        <button type="submit">Download Compressed File (.bin)</button>
-    </form>
-
-    <a href="/">Go Back</a>
-    """
+    return render_template(
+        "results.html",
+        filename=file.filename,
+        total_characters=len(content),
+        unique_characters=len(frequency_table),
+        root_frequency=huffman_tree.frequency,
+        frequency_table=formatted_frequency_table,
+        huffman_codes=formatted_huffman_codes,
+        original_size=statistics["original_size"],
+        encoded_size=statistics["encoded_size"],
+        compression_reduction=f"{statistics['compression_reduction']:.2f}",
+        binary_file_size=compressed_file_size,
+        encoded_text=formatted_encoded_text,
+        decoded_text=decoded_text,
+        raw_encoded_text=encoded_text
+    )
 
 
 @app.route("/download", methods=["POST"])
