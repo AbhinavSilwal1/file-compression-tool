@@ -100,3 +100,21 @@ def binary_string_to_bytes(binary_string):
         byte_array.append(int(byte, 2))
 
     return bytes(byte_array)
+
+
+def decode_text(encoded_text, huffman_tree):
+    decoded_text = ""
+
+    current_node = huffman_tree
+
+    for bit in encoded_text:
+        if bit == "0":
+            current_node = current_node.left
+        else:
+            current_node = current_node.right
+
+        if current_node.character is not None:
+            decoded_text += current_node.character
+            current_node = huffman_tree
+
+    return decoded_text

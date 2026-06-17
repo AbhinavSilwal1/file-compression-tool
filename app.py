@@ -4,6 +4,7 @@ from compression.huffman import (
     build_huffman_tree,
     generate_huffman_codes,
     encode_text,
+    decode_text,
     calculate_compression_statistics,
     binary_string_to_bytes
 )
@@ -35,6 +36,7 @@ def upload_file():
     huffman_tree = build_huffman_tree(frequency_table)
     huffman_codes = generate_huffman_codes(huffman_tree)
     encoded_text = encode_text(content, huffman_codes)
+    decoded_text = decode_text(encoded_text, huffman_tree)
     statistics = calculate_compression_statistics(content, encoded_text)
     binary_data = binary_string_to_bytes(encoded_text)
     compressed_file_size = len(binary_data)
@@ -73,6 +75,9 @@ def upload_file():
 
     <h3>Encoded Text</h3>
     <pre>{formatted_encoded_text}</pre>
+
+    <h3>Decoded Text</h3>
+    <pre>{decoded_text}</pre>
 
     <form action="/download" method="POST">
         <input type="hidden" name="encoded_text" value="{encoded_text}">
