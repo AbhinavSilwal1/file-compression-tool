@@ -3,13 +3,20 @@
 {% block content %}
 
 <h1>File Compression Tool</h1>
-
 <p>Upload a file to begin compression using Huffman Coding.</p>
-
 <form action="/upload" method="POST" enctype="multipart/form-data">
     <input type="file" name="file" required>
     <br><br>
     <button type="submit">Upload File</button>
+</form>
+
+<br><br>
+
+<h2>Decompress File</h2>
+<form action="/decompress" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <br><br>
+    <button type="submit">Upload .huff File</button>
 </form>
 
 {% endblock %}

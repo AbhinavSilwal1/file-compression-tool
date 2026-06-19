@@ -10,6 +10,20 @@
         <a href="/">Go Back</a>
     </div>
 
+{% elif decompression_preview %}
+
+    <div class="results-container">
+        <h2>.huff File Contents</h2>
+
+        <br>
+
+        <pre>{{ decompression_preview }}</pre>
+
+        <br>
+
+        <a href="/">Go Back</a>
+    </div>
+
 {% else %}
 
 <div class="results-container">

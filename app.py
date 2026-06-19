@@ -103,6 +103,30 @@ def upload_file():
     )
 
 
+@app.route("/decompress", methods=["POST"])
+def decompress_file():
+    if "file" not in request.files:
+        return render_template(
+            "results.html",
+            error="No file uploaded"
+        )
+
+    file = request.files["file"]
+
+    if file.filename == "":
+        return render_template(
+            "results.html",
+            error="No file selected"
+        )
+
+    huff_content = file.read().decode("utf-8")
+
+    return render_template(
+        "results.html",
+        decompression_preview=huff_content
+    )
+
+
 @app.route("/download", methods=["POST"])
 def download_file():
     encoded_text = request.form.get("encoded_text")
