@@ -53,7 +53,21 @@ def upload_file():
         return ' '.join(binary_string[i:i + chunk_size] for i in range(0, len(binary_string), chunk_size))
 
     def format_dict(d):
-        return '\n'.join(f"{key} : {value}" for key, value in d.items())
+        lines = []
+
+        for key, value in d.items():
+            if key == " ":
+                display_key = "[SPACE]"
+            elif key == "\n":
+                display_key = "[NEWLINE]"
+            elif key == "\t":
+                display_key = "[TAB]"
+            else:
+                display_key = key
+
+            lines.append(f"{display_key} : {value}")
+
+        return '\n'.join(lines)
 
     # Formatted display versions
     formatted_frequency_table = format_dict(frequency_table)
