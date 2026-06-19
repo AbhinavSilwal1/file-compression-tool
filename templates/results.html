@@ -79,7 +79,8 @@
 
     <form action="/download" method="POST">
         <input type="hidden" name="encoded_text" value="{{ raw_encoded_text }}">
-        <button type="submit">Download Compressed File (.bin)</button>
+        <input type="hidden" name="frequency_table" value="{{ raw_frequency_table }}">
+        <button type="submit">Download Compressed File (.huff)</button>
     </form>
 
     <br>

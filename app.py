@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, Response
+import json
 from compression.huffman import (
     build_frequency_table,
     build_huffman_tree,
@@ -96,6 +97,7 @@ def upload_file():
         encoded_text=formatted_encoded_text,
         decoded_text=decoded_text,
         raw_encoded_text=encoded_text,
+        raw_frequency_table=frequency_table,
         original_bar_width=original_bar_width,
         encoded_bar_width=encoded_bar_width
     )
@@ -108,13 +110,18 @@ def download_file():
     if not encoded_text:
         return "No encoded data found"
 
-    binary_data = binary_string_to_bytes(encoded_text)
+    frequency_table = request.form.get("frequency_table")
+
+    if not frequency_table:
+        return "No frequency data found"
+
+    huff_content = frequency_table + "\n---\n" + encoded_text
 
     return Response(
-        binary_data,
+        huff_content,
         mimetype="application/octet-stream",
         headers={
-            "Content-Disposition": "attachment; filename=compressed.bin"
+            "Content-Disposition": "attachment; filename=compressed.huff"
         }
     )
 
