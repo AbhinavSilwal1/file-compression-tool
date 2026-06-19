@@ -10,19 +10,19 @@
         <a href="/">Go Back</a>
     </div>
 
-{% elif decompression_preview %}
+{% elif decompressed_text %}
 
-    <div class="results-container">
-        <h2>.huff File Contents</h2>
+<div class="results-container">
+    <h2>Decompressed File Output</h2>
 
-        <br>
+    <br>
 
-        <pre>{{ decompression_preview }}</pre>
+    <pre>{{ decompressed_text }}</pre>
 
-        <br>
+    <br>
 
-        <a href="/">Go Back</a>
-    </div>
+    <a href="/">Go Back</a>
+</div>
 
 {% else %}
 
@@ -93,7 +93,7 @@
 
     <form action="/download" method="POST">
         <input type="hidden" name="encoded_text" value="{{ raw_encoded_text }}">
-        <input type="hidden" name="frequency_table" value="{{ raw_frequency_table }}">
+        <input type="hidden" name="frequency_table" value='{{ raw_frequency_table | tojson }}'>
         <button type="submit">Download Compressed File (.huff)</button>
     </form>
 

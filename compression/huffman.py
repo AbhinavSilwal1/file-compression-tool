@@ -1,4 +1,5 @@
 import heapq
+import json
 
 
 class HuffmanNode:
@@ -7,8 +8,11 @@ class HuffmanNode:
         self.frequency = frequency
         self.left = None
         self.right = None
+        self.order = id(self)
 
     def __lt__(self, other):
+        if self.frequency == other.frequency:
+            return (self.character or "") < (other.character or "")
         return self.frequency < other.frequency
 
 
@@ -118,3 +122,15 @@ def decode_text(encoded_text, huffman_tree):
             current_node = huffman_tree
 
     return decoded_text
+
+
+def build_tree_from_frequency(frequency_table):
+    return build_huffman_tree(frequency_table)
+
+
+def parse_huff_file(content):
+    frequency_str, encoded_text = content.split("\n---\n")
+
+    frequency_table = json.loads(frequency_str.strip())
+
+    return frequency_table, encoded_text

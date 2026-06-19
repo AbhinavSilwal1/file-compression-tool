@@ -7,7 +7,8 @@ from compression.huffman import (
     encode_text,
     decode_text,
     calculate_compression_statistics,
-    binary_string_to_bytes
+    binary_string_to_bytes,
+    parse_huff_file
 )
 
 
@@ -106,40 +107,41 @@ def upload_file():
 @app.route("/decompress", methods=["POST"])
 def decompress_file():
     if "file" not in request.files:
-        return render_template(
-            "results.html",
-            error="No file uploaded"
-        )
+        return render_template("results.html", error="No file uploaded")
 
     file = request.files["file"]
 
     if file.filename == "":
-        return render_template(
-            "results.html",
-            error="No file selected"
-        )
+        return render_template("results.html", error="No file selected")
 
-    huff_content = file.read().decode("utf-8")
+    content = file.read().decode("utf-8")
+
+    # Parse .huff file
+    frequency_table, encoded_text = parse_huff_file(content)
+
+    # Rebuild Huffman tree
+    huffman_tree = build_huffman_tree(frequency_table)
+
+    # Decode text
+    decoded_text = decode_text(encoded_text, huffman_tree)
 
     return render_template(
         "results.html",
-        decompression_preview=huff_content
+        decompressed_text=decoded_text
     )
 
 
 @app.route("/download", methods=["POST"])
 def download_file():
     encoded_text = request.form.get("encoded_text")
+    frequency_table_raw = request.form.get("frequency_table")
 
-    if not encoded_text:
-        return "No encoded data found"
+    if not encoded_text or not frequency_table_raw:
+        return "Missing data"
 
-    frequency_table = request.form.get("frequency_table")
+    frequency_table = json.loads(frequency_table_raw)
 
-    if not frequency_table:
-        return "No frequency data found"
-
-    huff_content = frequency_table + "\n---\n" + encoded_text
+    huff_content = json.dumps(frequency_table) + "\n---\n" + encoded_text
 
     return Response(
         huff_content,
