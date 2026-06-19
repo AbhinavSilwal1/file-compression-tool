@@ -70,3 +70,13 @@ a {
     background-color: #4CAF50;
     border-radius: 5px;
 }
+
+.error-box {
+    background-color: #ffe5e5;
+    border: 1px solid #ff4d4d;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    margin: 50px auto;
+    color: #a10000;
+}

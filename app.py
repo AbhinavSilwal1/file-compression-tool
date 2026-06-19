@@ -21,18 +21,25 @@ def home():
 @app.route("/upload", methods=["POST"])
 def upload_file():
     if "file" not in request.files:
-        return "No file part found"
+        return render_template("results.html", error="No file part found")
 
     file = request.files["file"]
 
     if file.filename == "":
-        return "No selected file"
+        return render_template("results.html", error="No selected file")
 
     # Read file content
     content = file.read().decode("utf-8", errors="ignore")
 
+    if not content.strip():
+        return render_template("results.html", error="Uploaded file is empty")
+
     # Huffman pipeline
     frequency_table = build_frequency_table(content)
+
+    if len(frequency_table) == 0:
+        return render_template("results.html", error="No valid characters to compress")
+
     huffman_tree = build_huffman_tree(frequency_table)
     huffman_codes = generate_huffman_codes(huffman_tree)
     encoded_text = encode_text(content, huffman_codes)

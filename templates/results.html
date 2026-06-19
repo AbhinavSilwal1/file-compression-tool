@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+{% if error %}
+
+    <div class="error-box">
+        <h2>Error</h2>
+        <p>{{ error }}</p>
+        <a href="/">Go Back</a>
+    </div>
+
+{% else %}
+
 <div class="results-container">
     <h2>File Uploaded Successfully</h2>
 
@@ -30,7 +41,7 @@
     <p><b>Binary File Size:</b> {{ binary_file_size }} bytes</p>
 
     <br>
-    
+
     <h3>Compression Visualization</h3>
     <div class="bar-label">
         Original ({{ original_size }} bits)
@@ -74,6 +85,8 @@
     <br>
 
     <a href="/">Go Back</a>
-
 </div>
+
+{% endif %}
+
 {% endblock %}
