@@ -141,7 +141,19 @@ def download_file():
 
     frequency_table = json.loads(frequency_table_raw)
 
-    huff_content = json.dumps(frequency_table) + "\n---\n" + encoded_text
+    header = {
+        "freq": frequency_table,
+        "original_size": len(encoded_text),
+        "encoding": "huffman",
+        "version": "HUFF1"
+    }
+
+    huff_content = (
+        "HUFF1\n"
+        + json.dumps(header)
+        + "\n---\n"
+        + encoded_text
+    )
 
     return Response(
         huff_content,

@@ -129,8 +129,16 @@ def build_tree_from_frequency(frequency_table):
 
 
 def parse_huff_file(content):
-    frequency_str, encoded_text = content.split("\n---\n")
+    lines = content.split("\n")
 
-    frequency_table = json.loads(frequency_str.strip())
+    if lines[0] != "HUFF1":
+        raise ValueError("Unsupported file format")
+
+    body = "\n".join(lines[1:])
+    header_str, encoded_text = body.split("\n---\n")
+
+    header = json.loads(header_str.strip())
+
+    frequency_table = header["freq"]
 
     return frequency_table, encoded_text
