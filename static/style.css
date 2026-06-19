@@ -48,3 +48,25 @@ a {
     display: inline-block;
     margin-top: 20px;
 }
+
+.bar-label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.bar-container {
+    width: 320px;
+    margin: 10px auto;
+}
+
+.original-bar {
+    height: 25px;
+    background-color: #666;
+    border-radius: 5px;
+}
+
+.compressed-bar {
+    height: 25px;
+    background-color: #4CAF50;
+    border-radius: 5px;
+}

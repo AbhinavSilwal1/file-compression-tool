@@ -41,6 +41,13 @@ def upload_file():
     binary_data = binary_string_to_bytes(encoded_text)
     compressed_file_size = len(binary_data)
 
+    original_size = statistics["original_size"]
+    encoded_size = statistics["encoded_size"]
+
+    max_bar_width = 300
+    original_bar_width = max_bar_width
+    encoded_bar_width = int((encoded_size / original_size) * max_bar_width)
+
     # Formatting helpers
     def format_binary_string(binary_string, chunk_size=8):
         return ' '.join(binary_string[i:i + chunk_size] for i in range(0, len(binary_string), chunk_size))
@@ -67,7 +74,9 @@ def upload_file():
         binary_file_size=compressed_file_size,
         encoded_text=formatted_encoded_text,
         decoded_text=decoded_text,
-        raw_encoded_text=encoded_text
+        raw_encoded_text=encoded_text,
+        original_bar_width=original_bar_width,
+        encoded_bar_width=encoded_bar_width
     )
 
 
