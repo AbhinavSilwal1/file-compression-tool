@@ -132,7 +132,8 @@ def decompress_file():
             "results.html",
             decompressed_text=decoded_text,
             file_version=header["version"],
-            encoding_type=header["encoding"]
+            encoding_type=header["encoding"],
+            original_filename=header.get("original_filename")
         )
     
     except Exception:
@@ -146,6 +147,7 @@ def decompress_file():
 def download_file():
     encoded_text = request.form.get("encoded_text")
     frequency_table_raw = request.form.get("frequency_table")
+    original_filename = request.form.get("original_filename")
 
     if not encoded_text or not frequency_table_raw:
         return "Missing data"
@@ -156,7 +158,8 @@ def download_file():
         "freq": frequency_table,
         "original_size": len(encoded_text),
         "encoding": "huffman",
-        "version": "HUFF1"
+        "version": "HUFF1",
+        "original_filename": original_filename
     }
 
     huff_content = (
