@@ -145,4 +145,4 @@ def parse_huff_file(content):
 
     frequency_table = header["freq"]
 
-    return frequency_table, encoded_text
+    return frequency_table, encoded_text, header

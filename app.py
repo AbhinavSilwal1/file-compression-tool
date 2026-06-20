@@ -119,7 +119,7 @@ def decompress_file():
     content = file.read().decode("utf-8")
 
     # Parse .huff file
-    frequency_table, encoded_text = parse_huff_file(content)
+    frequency_table, encoded_text, header = parse_huff_file(content)
 
     # Rebuild Huffman tree
     huffman_tree = build_huffman_tree(frequency_table)
@@ -129,7 +129,9 @@ def decompress_file():
 
     return render_template(
         "results.html",
-        decompressed_text=decoded_text
+        decompressed_text=decoded_text,
+        file_version=header["version"],
+        encoding_type=header["encoding"]
     )
 
 
