@@ -83,11 +83,15 @@ def calculate_compression_statistics(text, encoded_text):
     original_size = len(text) * 8
     encoded_size = len(encoded_text)
     compression_reduction = ((original_size - encoded_size) / original_size) * 100
+    space_saved = original_size - encoded_size
+    compression_ratio = (original_size / encoded_size)
 
     return {
         "original_size": original_size,
         "encoded_size": encoded_size,
-        "compression_reduction": compression_reduction
+        "compression_reduction": compression_reduction,
+        "space_saved": space_saved,
+        "compression_ratio": compression_ratio
     }
 
 

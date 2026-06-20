@@ -94,6 +94,8 @@ def upload_file():
         original_size=statistics["original_size"],
         encoded_size=statistics["encoded_size"],
         compression_reduction=f"{statistics['compression_reduction']:.2f}",
+        space_saved=statistics["space_saved"],
+        compression_ratio=f"{statistics['compression_ratio']:.2f}",
         binary_file_size=compressed_file_size,
         encoded_text=formatted_encoded_text,
         decoded_text=decoded_text,
