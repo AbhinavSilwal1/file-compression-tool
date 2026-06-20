@@ -118,21 +118,28 @@ def decompress_file():
 
     content = file.read().decode("utf-8")
 
-    # Parse .huff file
-    frequency_table, encoded_text, header = parse_huff_file(content)
+    try:
+        # Parse .huff file
+        frequency_table, encoded_text, header = parse_huff_file(content)
 
-    # Rebuild Huffman tree
-    huffman_tree = build_huffman_tree(frequency_table)
+        # Rebuild Huffman tree
+        huffman_tree = build_huffman_tree(frequency_table)
 
-    # Decode text
-    decoded_text = decode_text(encoded_text, huffman_tree)
+        # Decode text
+        decoded_text = decode_text(encoded_text, huffman_tree)
 
-    return render_template(
-        "results.html",
-        decompressed_text=decoded_text,
-        file_version=header["version"],
-        encoding_type=header["encoding"]
-    )
+        return render_template(
+            "results.html",
+            decompressed_text=decoded_text,
+            file_version=header["version"],
+            encoding_type=header["encoding"]
+        )
+    
+    except Exception:
+        return render_template(
+            "results.html",
+            error="Invalid or corrupted .huff file"
+        )
 
 
 @app.route("/download", methods=["POST"])
