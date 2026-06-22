@@ -4,11 +4,11 @@
 
 {% if error %}
 
-    <div class="error-box">
-        <h2>Error</h2>
-        <p>{{ error }}</p>
-        <a href="/">Go Back</a>
-    </div>
+<div class="error-box">
+    <h2>Error</h2>
+    <p>{{ error }}</p>
+    <a href="/">Go Back</a>
+</div>
 
 {% elif decompressed_text %}
 
@@ -24,6 +24,14 @@
     <br>
     
     <pre>{{ decompressed_text }}</pre>
+
+    <br>
+
+    <form action="/download-restored" method="POST">
+        <input type="hidden" name="restored_text" value="{{ decompressed_text }}">
+        <input type="hidden" name="original_filename" value="{{ original_filename }}">
+        <button type="submit">Download Restored File (.txt)</button>
+    </form>
 
     <br>
 

@@ -178,5 +178,26 @@ def download_file():
     )
 
 
+@app.route("/download-restored", methods=["POST"])
+def download_restored():
+    restored_text = request.form.get("restored_text")
+    original_filename = request.form.get(
+        "original_filename",
+        "restored.txt"
+    )
+
+    if restored_text is None:
+        return "Missing restored data"
+
+    return Response(
+        restored_text,
+        mimetype="text/plain",
+        headers={
+            "Content-Disposition":
+                f"attachment; filename={original_filename}"
+        }
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=8000)
