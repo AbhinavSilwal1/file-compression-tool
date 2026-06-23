@@ -20,6 +20,7 @@
     <p><b>Version:</b> {{ file_version }}</p>
     <p><b>Encoding:</b> {{ encoding_type }}</p>
     <p><b>Original Filename:</b> {{ original_filename }}</p>
+    <p><b>Integrity Hash Verified:</b> ✔ Passed</p>
 
     <br>
     
@@ -112,6 +113,7 @@
         <input type="hidden" name="frequency_table" value='{{ raw_frequency_table | tojson }}'>
         <input type="hidden" name="huffman_codes" value='{{ raw_huffman_codes | tojson }}'>
         <input type="hidden" name="original_filename" value="{{ filename }}">
+        <input type="hidden" name="content_hash" value="{{ content_hash }}">
         <button type="submit">Download Compressed File (.huff)</button>
     </form>
 

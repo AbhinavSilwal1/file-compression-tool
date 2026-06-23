@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, Response
 import json
 import os
+import hashlib
 from compression.huffman import (
     build_frequency_table,
     build_huffman_tree,
@@ -48,6 +49,9 @@ def upload_file():
 
     try:
         content = raw_bytes.decode("utf-8")
+
+        # Generate integrity hash
+        content_hash = hashlib.sha256(content.encode("utf-8")).hexdigest()
     
     except UnicodeDecodeError:
         return render_template(
@@ -125,7 +129,8 @@ def upload_file():
         raw_frequency_table=frequency_table,
         raw_huffman_codes=huffman_codes,
         original_bar_width=original_bar_width,
-        encoded_bar_width=encoded_bar_width
+        encoded_bar_width=encoded_bar_width,
+        content_hash=content_hash
     )
 
 
@@ -144,19 +149,30 @@ def decompress_file():
     try:
         # Parse .huff file
         frequency_table, huffman_codes, encoded_text, header = parse_huff_file(content)
+        original_hash = header.get("hash")
 
         # Rebuild Huffman tree
         huffman_tree = build_tree_from_codes(huffman_codes)
 
         # Decode text
         decoded_text = decode_text(encoded_text, huffman_tree)
+        
+        # Integrity check
+        calculated_hash = hashlib.sha256(decoded_text.encode("utf-8")).hexdigest()
+
+        if original_hash and calculated_hash != original_hash:
+            return render_template(
+                "results.html",
+                error="File integrity check failed. The file may be corrupted or modified."
+            )
 
         return render_template(
             "results.html",
             decompressed_text=decoded_text,
             file_version=header["version"],
             encoding_type=header["encoding"],
-            original_filename=header.get("original_filename")
+            original_filename=header.get("original_filename"),
+            file_hash=original_hash
         )
     
     except Exception:
@@ -182,6 +198,7 @@ def download_file():
     header = {
         "freq": frequency_table,
         "codes": huffman_codes,
+        "hash": request.form.get("content_hash"),
         "original_size": len(encoded_text),
         "encoding": "huffman",
         "version": "HUFF1",
