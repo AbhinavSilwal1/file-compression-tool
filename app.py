@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, Response
 import json
+import os
 from compression.huffman import (
     build_frequency_table,
     build_huffman_tree,
@@ -28,12 +29,32 @@ def upload_file():
 
     file = request.files["file"]
 
+    filename = file.filename.lower()
+    _, file_extension = os.path.splitext(filename)
+
+    allowed_types = {".txt", ".md", ".json", ".csv", ".log"}
+
+    if file_extension not in allowed_types:
+        return render_template(
+            "results.html",
+            error=f"Unsupported file type: {file_extension}. Only text-based files are supported (.txt, .md, .json, .csv, .log)"
+        )
+
     if file.filename == "":
         return render_template("results.html", error="No selected file")
 
     # Read file content
-    content = file.read().decode("utf-8", errors="ignore")
+    raw_bytes = file.read()
 
+    try:
+        content = raw_bytes.decode("utf-8")
+    
+    except UnicodeDecodeError:
+        return render_template(
+            "results.html",
+            error="File is not valid UTF-8 text. Please upload a plain text file."
+        )
+    
     if not content.strip():
         return render_template("results.html", error="Uploaded file is empty")
 
