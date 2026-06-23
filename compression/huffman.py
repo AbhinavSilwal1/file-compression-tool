@@ -8,11 +8,11 @@ class HuffmanNode:
         self.frequency = frequency
         self.left = None
         self.right = None
-        self.order = id(self)
+        self.order = 0
 
     def __lt__(self, other):
         if self.frequency == other.frequency:
-            return (self.character or "") < (other.character or "")
+            return self.order < other.order
         return self.frequency < other.frequency
 
 
@@ -30,9 +30,12 @@ def build_frequency_table(text):
 
 def build_huffman_tree(frequency_table):
     heap = []
+    order_counter = 0
 
     for character, frequency in frequency_table.items():
         node = HuffmanNode(character, frequency)
+        node.order = order_counter
+        order_counter += 1
         heapq.heappush(heap, node)
 
     while len(heap) > 1:
@@ -42,6 +45,8 @@ def build_huffman_tree(frequency_table):
         merged_frequency = left_node.frequency + right_node.frequency
 
         parent_node = HuffmanNode(None, merged_frequency)
+        parent_node.order = order_counter
+        order_counter += 1
 
         parent_node.left = left_node
         parent_node.right = right_node
@@ -59,7 +64,12 @@ def generate_huffman_codes(root):
             return
 
         if node.character is not None:
-            codes[node.character] = current_code
+
+            if current_code == "":
+                codes[node.character] = "0"
+            else:
+                codes[node.character] = current_code
+
             return
 
         traverse(node.left, current_code + "0")
@@ -112,6 +122,9 @@ def binary_string_to_bytes(binary_string):
 
 def decode_text(encoded_text, huffman_tree):
     decoded_text = ""
+
+    if (huffman_tree.left is None and huffman_tree.right is None):
+        return huffman_tree.character * len(encoded_text)
 
     current_node = huffman_tree
 
