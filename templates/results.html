@@ -110,6 +110,7 @@
     <form action="/download" method="POST">
         <input type="hidden" name="encoded_text" value="{{ raw_encoded_text }}">
         <input type="hidden" name="frequency_table" value='{{ raw_frequency_table | tojson }}'>
+        <input type="hidden" name="huffman_codes" value='{{ raw_huffman_codes | tojson }}'>
         <input type="hidden" name="original_filename" value="{{ filename }}">
         <button type="submit">Download Compressed File (.huff)</button>
     </form>

@@ -132,6 +132,30 @@ def build_tree_from_frequency(frequency_table):
     return build_huffman_tree(frequency_table)
 
 
+def build_tree_from_codes(huffman_codes):
+    root = HuffmanNode(None, 0)
+
+    for character, code in huffman_codes.items():
+        current_node = root
+
+        for bit in code:
+            if bit == "0":
+                if current_node.left is None:
+                    current_node.left = HuffmanNode(None, 0)
+
+                current_node = current_node.left
+
+            else:
+                if current_node.right is None:
+                    current_node.right = HuffmanNode(None, 0)
+
+                current_node = current_node.right
+
+        current_node.character = character
+
+    return root
+
+
 def parse_huff_file(content):
     lines = content.split("\n")
 
@@ -144,5 +168,6 @@ def parse_huff_file(content):
     header = json.loads(header_str.strip())
 
     frequency_table = header["freq"]
+    huffman_codes = header["codes"]
 
-    return frequency_table, encoded_text, header
+    return frequency_table, huffman_codes, encoded_text, header

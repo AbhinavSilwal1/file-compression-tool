@@ -8,7 +8,8 @@ from compression.huffman import (
     decode_text,
     calculate_compression_statistics,
     binary_string_to_bytes,
-    parse_huff_file
+    parse_huff_file,
+    build_tree_from_codes
 )
 
 
@@ -101,6 +102,7 @@ def upload_file():
         decoded_text=decoded_text,
         raw_encoded_text=encoded_text,
         raw_frequency_table=frequency_table,
+        raw_huffman_codes=huffman_codes,
         original_bar_width=original_bar_width,
         encoded_bar_width=encoded_bar_width
     )
@@ -120,10 +122,10 @@ def decompress_file():
 
     try:
         # Parse .huff file
-        frequency_table, encoded_text, header = parse_huff_file(content)
+        frequency_table, huffman_codes, encoded_text, header = parse_huff_file(content)
 
         # Rebuild Huffman tree
-        huffman_tree = build_huffman_tree(frequency_table)
+        huffman_tree = build_tree_from_codes(huffman_codes)
 
         # Decode text
         decoded_text = decode_text(encoded_text, huffman_tree)
@@ -148,14 +150,17 @@ def download_file():
     encoded_text = request.form.get("encoded_text")
     frequency_table_raw = request.form.get("frequency_table")
     original_filename = request.form.get("original_filename")
+    huffman_codes_raw = request.form.get("huffman_codes")
 
     if not encoded_text or not frequency_table_raw:
         return "Missing data"
 
     frequency_table = json.loads(frequency_table_raw)
+    huffman_codes = json.loads(huffman_codes_raw)
 
     header = {
         "freq": frequency_table,
+        "codes": huffman_codes,
         "original_size": len(encoded_text),
         "encoding": "huffman",
         "version": "HUFF1",
