@@ -2,21 +2,42 @@
 
 {% block content %}
 
-<h1>File Compression Tool</h1>
-<p>Upload a file to begin compression using Huffman Coding.</p>
-<form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file" required>
-    <br><br>
-    <button type="submit">Upload File</button>
-</form>
+<div class="hero-card">
+    <h1>File Compression Tool</h1>
 
-<br><br>
+    <p class="subtitle">
+        Compress and decompress text files using Huffman Coding.
+    </p>
 
-<h2>Decompress File</h2>
-<form action="/decompress" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file" required>
-    <br><br>
-    <button type="submit">Upload .huff File</button>
-</form>
+    <div class="section-divider"></div>
+
+    <h2>Compress File</h2>
+
+    <p class="supported-formats">
+        Supported formats:
+        <span>.txt</span>, <span>.md</span>, <span>.json</span>, <span>.csv</span>, <span>.log</span>
+    </p>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <br><br>
+        <button type="submit">Compress</button>
+    </form>
+
+    <div class="section-divider"></div>
+
+    <h2>Decompress File</h2>
+
+    <p class="supported-formats">
+        Supported format:
+        <span>.huff</span>
+    </p>
+
+    <form action="/decompress" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <br><br>
+        <button type="submit">Decompress</button>
+    </form>
+</div>
 
 {% endblock %}
