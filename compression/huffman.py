@@ -176,9 +176,31 @@ def parse_huff_file(content):
         raise ValueError("Unsupported file format")
 
     body = "\n".join(lines[1:])
-    header_str, encoded_text = body.split("\n---\n")
 
-    header = json.loads(header_str.strip())
+    if "\n---\n" not in body:
+        raise ValueError("Missing file separator")
+
+    header_str, encoded_text = body.split("\n---\n", 1)
+
+    try:
+        header = json.loads(header_str.strip())
+
+    except json.JSONDecodeError:
+        raise ValueError("Invalid header format")
+
+    required_fields = ["freq", "codes", "encoding", "version"]
+
+    for field in required_fields:
+        if field not in header:
+            raise ValueError(
+                f"Missing required header field: {field}"
+            )
+
+    if header["encoding"] != "huffman":
+        raise ValueError("Unsupported encoding type")
+
+    if header["version"] != "HUFF1":
+        raise ValueError("Unsupported file version")
 
     frequency_table = header["freq"]
     huffman_codes = header["codes"]

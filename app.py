@@ -175,10 +175,10 @@ def decompress_file():
             file_hash=original_hash
         )
     
-    except Exception:
+    except Exception as error:
         return render_template(
             "results.html",
-            error="Invalid or corrupted .huff file"
+            error=str(error)
         )
 
 
