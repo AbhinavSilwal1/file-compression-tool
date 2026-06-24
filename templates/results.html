@@ -88,25 +88,29 @@
 
     <h3>Compression Visualization</h3>
     <div class="bar-label">
-        Original ({{ original_size }} bits)
+        Original Size
     </div>
 
     <div class="bar-container">
         <div
             class="original-bar"
             style="width: {{ original_bar_width }}px;"
-        ></div>
+        >
+            {{ original_size }} bits
+        </div>
     </div>
 
     <div class="bar-label">
-        Compressed ({{ encoded_size }} bits)
+        Compressed Size
     </div>
 
     <div class="bar-container">
         <div
             class="compressed-bar"
             style="width: {{ encoded_bar_width }}px;"
-        ></div>
+        >
+            {{ encoded_size }} bits
+        </div>
     </div>
 
     <br>

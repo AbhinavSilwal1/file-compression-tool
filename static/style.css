@@ -99,19 +99,41 @@ a {
 
 .bar-container {
     width: 320px;
-    margin: 10px auto;
+    margin: 12px auto 20px auto;
 }
 
 .original-bar {
-    height: 25px;
+    height: 30px;
     background-color: #666;
-    border-radius: 5px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s ease;
+}
+
+.original-bar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
 }
 
 .compressed-bar {
-    height: 25px;
+    height: 30px;
     background-color: #4CAF50;
-    border-radius: 5px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s ease;
+}
+
+.compressed-bar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
 }
 
 .error-box {
