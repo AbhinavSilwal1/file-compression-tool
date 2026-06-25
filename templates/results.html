@@ -5,9 +5,19 @@
 {% if error %}
 
 <div class="error-box">
-    <h2>Error</h2>
-    <p>{{ error }}</p>
-    <a href="/">Go Back</a>
+    <div class="error-icon">
+        ⚠
+    </div>
+
+    <h2>Upload Failed</h2>
+
+    <p class="error-message">
+        {{ error }}
+    </p>
+
+    <a href="/" class="error-button">
+        Return Home
+    </a>
 </div>
 
 {% elif decompressed_text %}
