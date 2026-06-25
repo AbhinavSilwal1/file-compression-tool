@@ -174,3 +174,22 @@ a {
     margin-bottom: 10px;
     color: #222;
 }
+
+details {
+    margin: 15px auto;
+    text-align: left;
+    width: 90%;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+    background: #f1f5f9;
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+summary:hover {
+    background: #e2e8f0;
+}
