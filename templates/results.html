@@ -15,9 +15,7 @@
         {{ error }}
     </p>
 
-    <a href="/" class="error-button">
-        Return Home
-    </a>
+    <a href="/" class="primary-button">Return Home</a>
 </div>
 
 {% elif decompressed_text %}
@@ -41,12 +39,12 @@
     <form action="/download-restored" method="POST">
         <input type="hidden" name="restored_text" value="{{ decompressed_text }}">
         <input type="hidden" name="original_filename" value="{{ original_filename }}">
-        <button type="submit">Download Restored File (.txt)</button>
+        <button type="submit">Download Restored File</button>
     </form>
 
     <br>
 
-    <a href="/">Go Back</a>
+    <a href="/" class="primary-button">Return Home</a>
 </div>
 
 {% else %}
@@ -154,7 +152,7 @@
 
     <br>
 
-    <a href="/">Go Back</a>
+    <a href="/" class="primary-button">Return Home</a>
 </div>
 
 {% endif %}

@@ -57,21 +57,6 @@ input[type="file"] {
     margin-top: 10px;
 }
 
-button {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 8px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-button:hover {
-    background-color: #1d4ed8;
-}
-
 .supported-formats span {
     background: #eef2ff;
     padding: 2px 6px;
@@ -162,20 +147,6 @@ a {
     line-height: 1.6;
 }
 
-.error-button {
-    display: inline-block;
-    background: #2563eb;
-    color: white;
-    text-decoration: none;
-    padding: 12px 22px;
-    border-radius: 8px;
-    transition: 0.2s ease;
-}
-
-.error-button:hover {
-    background: #1d4ed8;
-}
-
 .stats-grid {
     display: flex;
     justify-content: center;
@@ -222,4 +193,23 @@ summary {
 
 summary:hover {
     background: #e2e8f0;
+}
+
+button,
+.primary-button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+button:hover,
+.primary-button:hover {
+    background: #1d4ed8;
 }
