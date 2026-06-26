@@ -16,6 +16,7 @@ class HuffmanNode:
         return self.frequency < other.frequency
 
 
+# Build a frequency table from the input text
 def build_frequency_table(text):
     frequency = {}
 
@@ -28,6 +29,7 @@ def build_frequency_table(text):
     return frequency
 
 
+# Construct the Huffman Tree using a priority queue
 def build_huffman_tree(frequency_table):
     heap = []
     order_counter = 0
@@ -56,6 +58,7 @@ def build_huffman_tree(frequency_table):
     return heap[0]
 
 
+# Generate binary Huffman codes from the tree
 def generate_huffman_codes(root):
     codes = {}
 
@@ -80,6 +83,7 @@ def generate_huffman_codes(root):
     return codes
 
 
+# Encode text using the generated Huffman codes
 def encode_text(text, huffman_codes):
     encoded_text = ""
 
@@ -89,6 +93,7 @@ def encode_text(text, huffman_codes):
     return encoded_text
 
 
+# Calculate the compression statistics
 def calculate_compression_statistics(text, encoded_text):
     original_size = len(text) * 8
     encoded_size = len(encoded_text)
@@ -105,6 +110,7 @@ def calculate_compression_statistics(text, encoded_text):
     }
 
 
+# Convert a binary string into bytes for storage
 def binary_string_to_bytes(binary_string):
     padding = 8 - (len(binary_string) % 8)
 
@@ -120,6 +126,7 @@ def binary_string_to_bytes(binary_string):
     return bytes(byte_array)
 
 
+# Decode binary data using the Huffman Tree
 def decode_text(encoded_text, huffman_tree):
     decoded_text = ""
 
@@ -141,10 +148,7 @@ def decode_text(encoded_text, huffman_tree):
     return decoded_text
 
 
-def build_tree_from_frequency(frequency_table):
-    return build_huffman_tree(frequency_table)
-
-
+# Rebuilds the Huffman tree from the codes
 def build_tree_from_codes(huffman_codes):
     root = HuffmanNode(None, 0)
 
@@ -169,6 +173,7 @@ def build_tree_from_codes(huffman_codes):
     return root
 
 
+# Parse a custom .huff file and validate its metadata
 def parse_huff_file(content):
     lines = content.split("\n")
 

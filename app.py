@@ -18,11 +18,17 @@ from compression.huffman import (
 app = Flask(__name__)
 
 
+# --------------------------------
+# Home Page
+# --------------------------------
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+# --------------------------------
+# Compression
+# --------------------------------
 @app.route("/upload", methods=["POST"])
 def upload_file():
     if "file" not in request.files:
@@ -44,7 +50,6 @@ def upload_file():
     if file.filename == "":
         return render_template("results.html", error="No selected file")
 
-    # Read file content
     raw_bytes = file.read()
 
     try:
@@ -83,7 +88,7 @@ def upload_file():
     original_bar_width = max_bar_width
     encoded_bar_width = int((encoded_size / original_size) * max_bar_width)
 
-    # Formatting helpers
+    # Display formatting helpers
     def format_binary_string(binary_string, chunk_size=8):
         return ' '.join(binary_string[i:i + chunk_size] for i in range(0, len(binary_string), chunk_size))
 
@@ -134,6 +139,9 @@ def upload_file():
     )
 
 
+# --------------------------------
+# Decompression
+# --------------------------------
 @app.route("/decompress", methods=["POST"])
 def decompress_file():
     if "file" not in request.files:
@@ -182,6 +190,9 @@ def decompress_file():
         )
 
 
+# --------------------------------
+# Download Compressed File
+# --------------------------------
 @app.route("/download", methods=["POST"])
 def download_file():
     encoded_text = request.form.get("encoded_text")
@@ -221,6 +232,9 @@ def download_file():
     )
 
 
+# --------------------------------
+# Download Restored File
+# --------------------------------
 @app.route("/download-restored", methods=["POST"])
 def download_restored():
     restored_text = request.form.get("restored_text")
